@@ -1,0 +1,51 @@
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: backend
+
+  namespace: watchlist
+
+spec:
+
+  replicas: 2
+
+  selector:
+
+    matchLabels:
+
+      app: backend
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: backend
+
+    spec:
+
+      containers:
+
+        - name: backend
+
+          image: raj8875/watchlist-backend:latest
+
+          ports:
+
+            - containerPort: 5000
+
+          envFrom:
+
+            - configMapRef:
+
+                name: backend-config    # injects DB_HOST, DB_PORT
+
+            - secretRef:
+
+                name: postgres-secret   # injects POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
+
